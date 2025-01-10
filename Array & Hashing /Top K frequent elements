@@ -58,3 +58,48 @@ class Solution {
 // TC: countfreq (n) , add to heap (nlogk) , extract ele from heap O(klogk) -> O(nlogk)
 // SC: map n, heap k, total O(n+k)
 // =========================== // Optimized - Bucket Sort // =============================//
+// create map - create bucket in arraylist - add ele in it - add in res k ele 
+// TC: O(n)
+// SC: O(n)
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        int n = nums.length;
+        //1. count freq using hashmap
+        HashMap<Integer,Integer> h = new HashMap<>();
+        for(int num : nums){
+            h.put(num,h.getOrDefault(num,0)+1);
+        }
+        
+        //2. Create Bucket
+        List<List<Integer>> bucket = new ArrayList<>();
+        for(int i = 0; i<= n; i++){
+            bucket.add(new ArrayList<>());
+        }
+        //index = freq
+        //value = elements
+        //bucket[i] = ele having i freq
+
+        //3. add map ele with freq in bucket
+        for(Map.Entry<Integer,Integer> entry: h.entrySet()) {
+            int element = entry.getKey();
+            int freq = entry.getValue();
+            bucket.get(freq).add(element);
+        }
+
+        //4. Extract top k ele using array
+        int[] res = new int[k];
+        int index = 0;
+        for(int i = n; i>= 0 && k > 0 ; i--){
+            if(bucket.get(i).isEmpty()) continue;
+            for(int element : bucket.get(i)){
+                if(k>0){
+                    res[index++] = element;
+                    k--;
+                }else {
+                    break;
+                }
+            }
+        }
+        return res;
+    }
+}
