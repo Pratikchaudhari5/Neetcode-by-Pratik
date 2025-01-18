@@ -67,3 +67,40 @@ class Solution {
         }
     }
 }
+// same as above //
+
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();//create list
+        Arrays.sort(nums);// sort array
+        
+        for(int i = 0; i<nums.length - 2; i++){//nums-2 bcoz we need 3 ele for sum
+            if(i>0 && nums[i]==nums[i-1]){//check duplicate ele- if yes then we had done with tripelts as sam eele
+                continue;
+            }
+
+            int l = i+1, r = nums.length - 1;//declare l & r
+            while(l<r){
+                int sum = nums[i]+nums[l]+nums[r];// sum of 3 ele 
+                if(sum<0){
+                    l++;//sum is less then left pointer move to right
+                } else if(sum>0){
+                    r--;
+                } else{
+                    result.add(Arrays.asList(nums[i],nums[l],nums[r]));
+
+                    while (l<r && nums[l] == nums[l+1]){//skip duplicates
+                        l++;
+                    }
+                    while(l<r && nums[r]== nums[r-1]){
+                        r--;
+                    }
+                    l++;
+                    r--;
+                }
+            }
+        }
+        return result;
+    }
+}
+
